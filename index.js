@@ -21,11 +21,18 @@ async function startServer() {
                 completed: Boolean,
                 userId: ID!
             }
+
+            type Comments{
+                name: String!,
+                postId: ID!,
+                email: String!
+            }
             
             type Query{
                 getTodos: [Todo],
                 getUsers: [User],
                 getUserById(id: ID!): User,
+                getComments: [Comments]
             }
 
         `,
@@ -41,6 +48,9 @@ async function startServer() {
                 getUserById: async (parent, {id}) => (
                     await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`)
                 ).data,
+
+                getComments: async () => 
+                    (await axios.get("https://jsonplaceholder.typicode.com/comments")).data,
             }
         }
     });
